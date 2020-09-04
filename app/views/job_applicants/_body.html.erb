@@ -1,0 +1,24 @@
+<% @jobs.each do |job| %>
+  <% job.applicants.each_with_index do |applicant, index| %>
+    <% skills_count = applicant.skills.map(&:name).uniq.count %>
+    <% skills_listed = [] %>
+    <% applicant.skills.each_with_index do |skill, idx| %>
+      <% next if skills_listed.include?(skill.name) %>
+      <tr>
+        <% if idx > 0 %>
+          <td><%= skill.name %></td>
+        <% else %>
+          <% if index == 0 %>
+            <td rowspan="<%= job.applicants.map{|a| a.skills.map(&:name).uniq.count}.sum %>" class="job-name"><%= job.name %></td>
+          <% end %>
+          <td rowspan="<%= skills_count %>" class="applicant-name"><%= applicant.name || '---' %></td>
+          <td rowspan="<%= skills_count %>"><%= applicant.email ? mail_to(applicant.email) : '---' %></td>
+          <td rowspan="<%= skills_count %>"><%= applicant.website ? link_to(applicant.website, applicant.website_url) : '---' %></td>
+          <td><%= skill.name %></td>
+          <td rowspan="<%= skills_count %>"><%= raw applicant.cover_letter.to_s %></td>
+        <% end %>
+      </tr>
+      <% skills_listed << skill.name %>
+    <% end %>
+  <% end %>
+<% end %>

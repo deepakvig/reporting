@@ -1,0 +1,5 @@
+<tr>
+  <td colspan="6">
+    <%= "#{@jobs.map(&:applicants).map(&:count).sum} Applicants, #{@jobs.map(&:skills).flatten.map(&:name).uniq.count} Unique Skills" %>
+  </td>
+</tr>
