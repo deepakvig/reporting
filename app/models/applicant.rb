@@ -8,4 +8,8 @@ class Applicant < ApplicationRecord
     end
     website
   end
+
+  def unique_skills
+    skills.pluck(:name).uniq
+  end
 end
